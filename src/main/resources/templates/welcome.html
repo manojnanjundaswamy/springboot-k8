@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot K8 deployment</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #00ffcc;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            padding-top: 100px;
+        }
+        h1 {
+            font-size: 3em;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+        .info {
+            margin-top: 40px;
+            font-size: 1.5em;
+        }
+        .box {
+            border: 2px dashed #00ffcc;
+            padding: 20px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>🚀 Welcome to Spring Boot K8 deployment!</h1>
+<div class="info box">
+    <p><strong>Pod Name:</strong> <span th:text="${podName}"></span></p>
+    <p><strong>Pod IP:</strong> <span th:text="${podIp}"></span></p>
+</div>
+</body>
+</html>
