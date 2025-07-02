@@ -12,8 +12,17 @@ pipeline {
         }
         stage('Docker Build & Push') {
             steps {
-                sh 'docker build -t $IMAGE .'
-                sh 'docker push $IMAGE'
+                withCredentials([usernamePassword(credentialsId: 'acr-creds', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS')]) {
+                    sh '''
+                        docker login springbootk8.azurecr.io -u $ACR_USER -p $ACR_PASS
+                        docker build -t $IMAGE .
+                        docker push $IMAGE
+                    '''
+                }
+
+//                 sh 'docker login -u springbootk8-token -p wC1gk8GiVT1pM+Dq/GtFFFjrcXry70gGZ7dWPsvksb+ACRBoI2yE springbootk8.azurecr.io'
+//                 sh 'docker build -t $IMAGE .'
+//                 sh 'docker push $IMAGE'
             }
         }
         stage('Update CD Repo') {
