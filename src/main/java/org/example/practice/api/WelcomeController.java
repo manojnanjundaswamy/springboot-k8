@@ -20,7 +20,6 @@ public class WelcomeController {
         if(podName.equals("unknown")) podName = InetAddress.getLocalHost().getHostName();
         model.addAttribute("podName MJ: ", podName);
         model.addAttribute("podIp: ", podIp);
-
         return "welcome";
     }
 }
