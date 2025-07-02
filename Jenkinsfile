@@ -12,8 +12,8 @@ pipeline {
         }
         stage('Docker Build & Push') {
             steps {
-                sh 'podman build -t $IMAGE .'
-                sh 'podman push $IMAGE'
+                sh 'docker build -t $IMAGE .'
+                sh 'docker push $IMAGE'
             }
         }
         stage('Update CD Repo') {
