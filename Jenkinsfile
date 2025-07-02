@@ -25,6 +25,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'github-deploy-pat', variable: 'GIT_TOKEN')]) {
                     sh '''
+                        rm -rf springboot-k8-deploy
                         git clone https://$GIT_TOKEN@github.com/manojnanjundaswamy/springboot-k8-deploy.git
                         cd springboot-k8-deploy
                         sed -i "s/tag:.*/tag: ${BUILD_NUMBER}/" charts/springboot-k8/values-prod.yaml
