@@ -10,7 +10,7 @@ public class NextGen {
 
     @GetMapping("/hello/gen")
     public String sayHello(){
-        return "Holla!!!, welcome!!..";
+        return "Hollaaaaaa!!!, welcome!!..";
     }
 
 
