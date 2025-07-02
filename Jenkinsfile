@@ -19,10 +19,6 @@ pipeline {
                         docker push $IMAGE
                     '''
                 }
-
-//                 sh 'docker login -u springbootk8-token -p wC1gk8GiVT1pM+Dq/GtFFFjrcXry70gGZ7dWPsvksb+ACRBoI2yE springbootk8.azurecr.io'
-//                 sh 'docker build -t $IMAGE .'
-//                 sh 'docker push $IMAGE'
             }
         }
         stage('Update CD Repo') {
