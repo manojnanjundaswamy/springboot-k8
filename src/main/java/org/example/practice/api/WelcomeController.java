@@ -17,7 +17,6 @@ public class WelcomeController {
     @GetMapping("/")
     public String welcome(Model model) throws UnknownHostException {
         String podIp = InetAddress.getLocalHost().getHostAddress();
-
         if(podName.equals("unknown")) podName = InetAddress.getLocalHost().getHostName();
         model.addAttribute("podName MJ: ", podName);
         model.addAttribute("podIp: ", podIp);
