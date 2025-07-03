@@ -29,6 +29,7 @@ pipeline {
                         git clone https://$GIT_TOKEN@github.com/manojnanjundaswamy/springboot-k8-deploy.git
                         cd springboot-k8-deploy
                         sed -i "s/tag:.*/tag: ${BUILD_NUMBER}/" charts/springboot-k8/values-prod.yaml
+                        sed -i "s/tag:.*/tag: ${BUILD_NUMBER}/" charts/springboot-k8/values-dev.yaml
                         git config user.name "manojnanjundaswamy"
                         git config user.email "manojnanjundaswamy@gmail.com"
                         git commit -am "Update image tag to ${BUILD_NUMBER}"
