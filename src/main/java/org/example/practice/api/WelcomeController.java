@@ -14,6 +14,15 @@ public class WelcomeController {
     @Value("${HOSTNAME:unknown}")
     private String podName;
 
+    @Value("${POD_NAME:unknown}")
+    private String podName2;
+
+    @Value("${POD_NAMESPACE:default}")
+    private String podNamespace;
+
+    @Value("${NODE_NAME:unknown}")
+    private String nodeName;
+
     @GetMapping("/")
     public String welcome(Model model) throws UnknownHostException {
         String podIp = InetAddress.getLocalHost().getHostAddress();
@@ -22,6 +31,9 @@ public class WelcomeController {
         }
         model.addAttribute("podName", podName);
         model.addAttribute("podIp", podIp);
+        model.addAttribute("podName2", podName2);
+        model.addAttribute("podNamespace", podNamespace);
+        model.addAttribute("nodeName", nodeName);
         return "welcome";
     }
 }
