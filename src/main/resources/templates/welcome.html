@@ -1,64 +1,140 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Spring Boot K8 deployment</title>
     <style>
         body {
-            background: radial-gradient(circle at 50% 30%, #232526 0%, #1a1a1a 100%);
-            color: #00ffcc;
-            font-family: 'Courier New', monospace;
-            text-align: center;
-            padding-top: 100px;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            color: #222;
+            background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.75);
+            z-index: 0;
+        }
+        .wheel {
+            position: absolute;
+            top: 24px;
+            width: 60px;
+            height: 60px;
+            z-index: 2;
+            filter: drop-shadow(0 6px 18px rgba(30,60,90,0.18));
+            transition: transform 0.4s cubic-bezier(.25,.8,.25,1);
+            perspective: 400px;
+        }
+        .wheel-left {
+            left: 32px;
+        }
+        .wheel-right {
+            right: 32px;
+        }
+        .wheel svg {
+            display: block;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(.25,.8,.25,1);
+        }
+        .wheel:hover svg {
+            transform: rotateZ(360deg) scale(1.08) rotateX(12deg);
+            filter: drop-shadow(0 12px 32px #1a3c5a55);
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             min-height: 100vh;
         }
         h1 {
-            font-size: 3em;
-            text-shadow: 0 0 20px #00ffcc, 0 0 40px #00ffcc, 0 0 60px #00ffcc;
-            letter-spacing: 2px;
+            font-size: 2.5em;
+            font-weight: 600;
+            color: #1a3c5a;
+            margin-bottom: 32px;
+            letter-spacing: 1px;
+            text-shadow: 0 4px 18px #b0c4de55;
         }
-        .info {
-            margin-top: 40px;
-            font-size: 1.5em;
-            text-shadow: 0 0 8px #00ffcc;
+        .info-box {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            box-shadow: 0 12px 36px rgba(30,60,90,0.18), 0 2px 8px #fff inset;
+            padding: 36px 48px;
+            min-width: 340px;
+            max-width: 90vw;
+            margin: 0 auto;
+            transition: transform 0.2s, box-shadow 0.2s;
+            transform-style: preserve-3d;
         }
-        .box {
-            border: 2px dashed #00ffcc;
-            padding: 30px 40px;
-            display: inline-block;
-            margin-top: 20px;
-            background: rgba(26, 26, 26, 0.85);
-            border-radius: 20px;
-            box-shadow:
-                    0 4px 30px rgba(0,255,204,0.3),
-                    0 1.5px 0 #00ffcc,
-                    0 0 40px #00ffcc inset;
-            transition: transform 0.2s cubic-bezier(.25,.8,.25,1), box-shadow 0.2s;
-            perspective: 600px;
+        .info-box:hover {
+            transform: translateY(-6px) scale(1.02) rotateX(4deg);
+            box-shadow: 0 24px 64px rgba(30,60,90,0.22), 0 4px 16px #fff inset;
         }
-        .box:hover {
-            transform: translateY(-10px) scale(1.03) rotateX(6deg);
-            box-shadow:
-                    0 8px 60px #00ffcc,
-                    0 3px 0 #00ffcc,
-                    0 0 80px #00ffcc inset;
-        }
-        p {
+        .info-box p {
             margin: 18px 0;
+            font-size: 1.15em;
+            color: #2d4a60;
         }
-        strong {
-            color: #fff;
-            text-shadow: 0 0 6px #00ffcc;
+        .info-box strong {
+            color: #1a3c5a;
+        }
+        @media (max-width: 600px) {
+            .info-box {
+                padding: 20px 10px;
+                min-width: unset;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            .wheel {
+                width: 40px;
+                height: 40px;
+                top: 12px;
+            }
+            .wheel-left { left: 10px; }
+            .wheel-right { right: 10px; }
         }
     </style>
 </head>
 <body>
-<h1>🚀 Welcome to Spring Boot K8 deployment!...GO</h1>
-<div class="info box">
-    <p><strong>Pod Name:</strong> <span th:text="${podName}"></span></p>
-    <p><strong>Pod IP:</strong> <span th:text="${podIp}"></span></p>
-    <p><strong>Pod Name 2 😅:</strong> <span th:text="${podName2}"></span></p>
-    <p><strong>Pod Namespace:</strong> <span th:text="${podNamespace}"></span></p>
-    <p><strong>Node Name:</strong> <span th:text="${nodeName}"></span></p>
+<div class="wheel wheel-left">
+    <svg width="120" height="120" viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="28" fill="#e0e7ef" stroke="#1a3c5a" stroke-width="4"/>
+        <g>
+            <rect x="28" y="6" width="4" height="20" fill="#1a3c5a" rx="2"/>
+            <rect x="28" y="34" width="4" height="20" fill="#1a3c5a" rx="2"/>
+            <rect x="6" y="28" width="20" height="4" fill="#1a3c5a" rx="2"/>
+            <rect x="34" y="28" width="20" height="4" fill="#1a3c5a" rx="2"/>
+        </g>
+    </svg>
+</div>
+<div class="overlay"></div>
+<div class="container">
+    <h1>🚀 Welcome to Spring Boot K8 Deployment 👨‍💻👩‍💻</h1>
+    <div class="info-box">
+        <p><strong>Pod Name:</strong> <span th:text="${podName}"></span></p>
+        <p><strong>Pod IP:</strong> <span th:text="${podIp}"></span></p>
+        <p><strong>Pod Name 2:</strong> <span th:text="${podName2}"></span></p>
+        <p><strong>Pod Namespace:</strong> <span th:text="${podNamespace}"></span></p>
+        <p><strong>Node Name:</strong> <span th:text="${nodeName}"></span></p>
+    </div>
+</div>
+<div class="wheel wheel-right">
+    <svg width="60" height="60" viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="28" fill="#e0e7ef" stroke="#1a3c5a" stroke-width="4"/>
+        <g>
+            <rect x="28" y="6" width="4" height="20" fill="#1a3c5a" rx="2"/>
+            <rect x="28" y="34" width="4" height="20" fill="#1a3c5a" rx="2"/>
+            <rect x="6" y="28" width="20" height="4" fill="#1a3c5a" rx="2"/>
+            <rect x="34" y="28" width="20" height="4" fill="#1a3c5a" rx="2"/>
+        </g>
+    </svg>
 </div>
 </body>
 </html>
